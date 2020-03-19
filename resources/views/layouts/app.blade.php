@@ -24,6 +24,8 @@
                     post_id: postid 
                 }
                 axios.post('/like', data).then(response => {
+                    $("[data-postid='" + response['data']['post_id'] + "'] > .active-like").attr('class',
+                     'btn bth-link like');
                     e.currentTarget.className="btn btn-link like active-like"
                 })
             });

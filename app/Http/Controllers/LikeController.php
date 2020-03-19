@@ -23,6 +23,9 @@ class LikeController extends Controller
             $likes->save();
         }
      
-        return ['status' => 'Ok'];
+        return [
+            'like' => $request->isLike,
+            'post_id' => $request->post_id
+        ];
     }
 }

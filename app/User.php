@@ -46,16 +46,8 @@ class User extends Authenticatable
     public function likes() {
         return $this->hasMany('App\Like');
     }    
-    public function friendsOfMine(){ //returns friends of me (I have requested)
-        return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_id');
-    }
-
-    public function friendOf(){ //returns users who have requesed me as their friend
-        return $this->belongsToMany('App\User', 'friends', 'friend_id', 'user_id');
-    }
-
-    public function friends(){ //takes data from both functions above and merges it to avoid duplicated values 
-        return $this->friendsOfMine->merge($this->friendOf);
+    public function comments(){ 
+        return $this->hasMany('App\Comment');
     }
     
 }

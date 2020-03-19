@@ -74,6 +74,10 @@
                     Category: <div class="badge">{{ $post->category->name }}</div>
                 </div>
                 <div class="card-footer" data-postid="{{ $post->id }}">
+                    @php
+                             $i= Auth::user()->likes->count();
+                             $c = 1;
+                    @endphp
                     @foreach(Auth::user()->likes as $like)
                         @if ($like->post_id == $post->id)
                             @if($like->like )
@@ -83,10 +87,14 @@
                                <a href="#" class="btn btn-link like">Like</a>
                                <a href="#" class="btn btn-link like active-like">Dislike</a> 
                             @endif
-                        @else 
+                            @break
+                        @elseif ($i == $c)
                                <a href="#" class="btn btn-link like">Like</a>
                                <a href="#" class="btn btn-link like">Dislike</a> 
                         @endif
+                        @php
+                            $c++;
+                        @endphp
                     @endforeach
                     <a href="{{ route('post.show', [$post->id]) }}" class="btn btn-link">Comment</a>
                 </div>

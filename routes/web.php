@@ -40,6 +40,10 @@ Route::get('/post/category/{name}',
 
 Route::post('/like', 'LikeController@index')->middleware('auth');
 
+Route::post('/comment', 'CommentController@index')->middleware('auth');
+
+
+
 
 
 //Chat
