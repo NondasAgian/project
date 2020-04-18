@@ -38,15 +38,16 @@ Route::post('/category', 'CategoryController@store')->middleware('auth');
 Route::get('/post/category/{name}', 
 'CategoryController@showAll')->name('category.showAll')->middleware('auth');
 
+//Like
 Route::post('/like', 'LikeController@index')->middleware('auth');
 
+//Comment
 Route::post('/comment', 'CommentController@index')->middleware('auth');
 
-
-
-
-
 //Chat
-/*Route::get('/chat', 'ChatController@index')->middleware('auth')->name('chat.index');
-Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
-Route::post('/chat/getChat/{id}', 'ChatController@getChat')->middleware('auth');*/
+Route::get('chat', 'ChatController@chat');
+Route::post('send', 'ChatController@send');
+
+
+
+

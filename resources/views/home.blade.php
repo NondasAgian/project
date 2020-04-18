@@ -79,6 +79,7 @@
                         </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
                 <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="category-tab">
                     {{Auth::user()->categories()->count()}} Categories created

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Chat;
+use App\Events\ChatEvent;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,90 +10,32 @@ use Illuminate\Support\Facades\Auth;
 class ChatController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function index()
+    public function __construct()
     {
-        $friends = Auth::user()->friends();
-        return view('chat.index')->withFriends($friends);
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function chat()
     {
-        //
+        return view('chat');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function send(request $request)
     {
-        //
+        return $request->all();
+        $user = User::find(Auth::id());
+        event(new ChatEvent($request->message, $user));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $friend = User::find($id);
-        return view('chat.show')->withFriend($friend);
-    }
+    //public function send()
+    //{
+    //    $message = 'Hello';
+    //    $user = User::find(Auth::id());
+    //    event(new ChatEvent($message, $user));
+    //}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Chat $chat)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Chat $chat)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Chat $chat)
-    {
-        //
-    }
-    //gets all the Chats between authenticated user and friend.
-
-    public function getChat($id) {
-        $chats = Chat::where(function ($query) use ($id) {
-            $query->where('user_id', '=', Auth::user()->id)->where('friend_id', '=', $id);
-        })->orWhere(function ($query) use ($id) {
-            $query->where('user_id', '=', $id)->where('friend_id', '=', Auth::user()->id);
-        })->get();
-        return $chats;
-    }
 }
